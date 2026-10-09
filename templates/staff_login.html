@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Staff login · QueueLess{% endblock %}
+
+{% block content %}
+<section class="login-wrap">
+  <form method="post" class="login-card">
+    <p class="eyebrow">Staff access</p>
+    <h2>Enter staff PIN</h2>
+    <input type="password" name="pin" inputmode="numeric" placeholder="••••" autofocus required>
+    {% if error %}<p class="form-error">{{ error }}</p>{% endif %}
+    <button type="submit" class="btn btn-primary">Unlock panel</button>
+  </form>
+</section>
+{% endblock %}

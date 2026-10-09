@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Analytics · QueueLess{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div>
+    <p class="eyebrow">Analytics</p>
+    <h2>Queue patterns, learned from history</h2>
+    <p class="muted">Every number on this page is computed by MongoDB aggregation pipelines.</p>
+  </div>
+  <div class="refresh-box">
+    <button id="refresh-btn" class="btn btn-ghost">Recompute metrics</button>
+    <small id="metrics-info" class="muted"></small>
+  </div>
+</section>
+
+<section class="tiles">
+  <div class="tile"><span id="t-events">–</span><small>queue events stored</small></div>
+  <div class="tile"><span id="t-served">–</span><small>students served</small></div>
+  <div class="tile"><span id="t-wait">–</span><small>average actual wait</small></div>
+  <div class="tile"><span id="t-days">–</span><small>days of history</small></div>
+</section>
+
+<section class="panel">
+  <div class="panel-head">
+    <h3>When is each place busiest?</h3>
+    <small class="muted">Average people waiting, by hour of day (IST)</small>
+  </div>
+  <div class="chart-box tall"><canvas id="hourly-chart"></canvas></div>
+  <div id="peak-chips" class="chips"></div>
+</section>
+
+<section class="panel">
+  <div class="panel-head">
+    <h3>Explore a location</h3>
+    <select id="loc-select"></select>
+  </div>
+  <div class="two-col">
+    <div>
+      <h4>Weekly heatmap</h4>
+      <p class="muted small">Average queue length · brighter = busier · hover a cell for details</p>
+      <div id="heatmap" class="heatmap"></div>
+    </div>
+    <div>
+      <h4>Best time to visit today</h4>
+      <p id="forecast-text" class="forecast-text"></p>
+      <div class="chart-box"><canvas id="forecast-chart"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<section class="two-col">
+  <div class="panel">
+    <div class="panel-head">
+      <h3>Service speed</h3>
+      <small class="muted">Seconds per student</small>
+    </div>
+    <div class="chart-box"><canvas id="speed-chart"></canvas></div>
+  </div>
+  <div class="panel">
+    <div class="panel-head">
+      <h3>Busiest time slots</h3>
+      <small class="muted">From precomputed service_metrics</small>
+    </div>
+    <ol id="busiest" class="busiest"></ol>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel-head">
+    <h3>Students served per day of week</h3>
+    <small class="muted">Average per day, all locations</small>
+  </div>
+  <div class="chart-box"><canvas id="weekday-chart"></canvas></div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='js/chart.umd.min.js') }}"></script>
+{% endblock %}

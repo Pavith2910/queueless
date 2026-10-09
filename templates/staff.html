@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Staff panel · QueueLess{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div>
+    <p class="eyebrow">Staff panel</p>
+    <h2>Update queues</h2>
+    <p class="muted">Every action updates the live status and is saved as a history event in MongoDB.</p>
+  </div>
+  <a href="/staff/logout" class="btn btn-ghost">Log out</a>
+</section>
+
+<div id="staff-grid" class="staff-grid">
+  <p class="muted">Loading queues…</p>
+</div>
+
+<section class="log">
+  <h3>Activity this session</h3>
+  <ul id="log-list"><li class="muted">No actions yet.</li></ul>
+</section>
+
+<div id="toast" class="toast"></div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/staff.js') }}"></script>
+{% endblock %}

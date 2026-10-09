@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}QueueLess · Live queues{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="dash-hero">
+  <div>
+    <p class="eyebrow">Live campus queues</p>
+    <h1>Know the wait <em>before</em> you join the line.</h1>
+  </div>
+  <div class="clock-box">
+    <span id="demo-badge" class="demo-badge" hidden>Demo time</span>
+    <span id="clock" class="clock">--:--</span>
+    <div class="refresh-bar"><i id="refresh-progress"></i></div>
+    <small class="muted">Auto-refresh every 10 s</small>
+  </div>
+</section>
+
+<section class="summary">
+  <div class="sum-item"><span id="s-open">–</span><small>places open</small></div>
+  <div class="sum-item"><span id="s-waiting">–</span><small>people in queues</small></div>
+  <div class="sum-item good"><span id="s-shortest">–</span><small id="s-shortest-name">shortest wait</small></div>
+  <div class="sum-item bad"><span id="s-longest">–</span><small id="s-longest-name">longest wait</small></div>
+</section>
+
+<section class="toolbar">
+  <div id="filters" class="filters">
+    <button class="filter active" data-cat="all">All</button>
+    <button class="filter" data-cat="canteen">🍽️ Food</button>
+    <button class="filter" data-cat="office">📄 Offices</button>
+    <button class="filter" data-cat="library">📚 Library</button>
+  </div>
+  <label class="sort">Sort by
+    <select id="sort">
+      <option value="wait">Shortest wait</option>
+      <option value="busy">Busiest first</option>
+      <option value="name">Name</option>
+    </select>
+  </label>
+</section>
+
+<section class="layout">
+  <div id="cards" class="cards"><p class="muted">Loading live queues…</p></div>
+
+  <aside class="advisor">
+    <h3>Where should I go?</h3>
+    <p class="muted small">Pick where you planned to go and what you need. We compare walking time + waiting time.</p>
+    <label>I planned to go to
+      <select id="adv-location"></select>
+    </label>
+    <label>I need
+      <select id="adv-service"></select>
+    </label>
+    <button id="adv-btn" class="btn btn-primary">Find the fastest option</button>
+    <div id="adv-result" class="adv-result"></div>
+  </aside>
+</section>
+
+<div id="drawer" class="drawer" hidden>
+  <div class="drawer-backdrop" data-close></div>
+  <div class="drawer-panel">
+    <button class="drawer-close" data-close aria-label="Close">×</button>
+    <div id="drawer-body"></div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

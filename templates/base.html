@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}QueueLess{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <header class="topbar">
+    <a href="/" class="brand">Queue<span>Less</span></a>
+    <nav>
+      <a href="/" class="{{ 'active' if request.path == '/' }}">Live</a>
+      <a href="/analytics" class="{{ 'active' if request.path.startswith('/analytics') }}">Analytics</a>
+      <a href="/staff" class="{{ 'active' if request.path.startswith('/staff') }}">Staff</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <span><span id="db-dot" class="dot"></span><span id="db-text">Checking database…</span></span>
+    <span>QueueLess · NoSQL course project · MongoDB + Flask</span>
+  </footer>
+
+  <script>
+    // Database status in the footer of every page
+    fetch("/api/health")
+      .then((r) => r.json())
+      .then((d) => {
+        const ok = d.status === "ok";
+        document.getElementById("db-dot").classList.add(ok ? "ok" : "err");
+        document.getElementById("db-text").textContent =
+          ok ? `MongoDB connected · ${d.collections.length} collections` : "Database not reachable";
+      })
+      .catch(() => {
+        document.getElementById("db-dot").classList.add("err");
+        document.getElementById("db-text").textContent = "Server not reachable";
+      });
+  </script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
